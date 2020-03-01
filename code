@@ -1,0 +1,62 @@
+//#include "stdafx.h"
+#include <iostream>
+#include <vector>
+#include <string>
+#include <algorithm>
+#include <ctime>
+#include <cmath>
+#include <map>
+#include <queue>
+#include <deque>
+#include <set>
+
+#define ll long long
+#define vt vector
+
+using namespace std;
+
+map<pair<ll, ll>, ll> mp;
+ll n;
+vt<ll> ans, k, v, check, p, id;
+
+int main() {
+	cin >> n;
+	v.resize(n);
+	p.resize(n, -1);
+	id.resize(n);
+	k.resize(n + 2, 1e18);
+	k[0] = -1e18;
+	check.resize(n);
+	for (int i = 0; i < n; i++) {
+		cin >> v[i];
+	}
+	reverse(v.begin(), v.end());
+	for (int i = 0; i < n; i++) {
+		ll t = upper_bound(k.begin(), k.end(), v[i]) - k.begin();
+		k[t] = v[i];
+		p[i] = id[t - 1];
+		check[i] = t;
+
+	}
+	int t = -1, s;
+	for (int i = 0; i < check.size(); i++) {
+		//cout << check[i] << " ";
+		if (check[i] > t) {
+			t = check[i];
+			s = i;
+		}
+	}
+	
+	for (int i = s; i >= 0; i--) {
+		if (check[i] == t) {
+			ans.push_back(i + 1);
+			t--;
+		}
+	}
+	
+	cout << ans.size() << "\n";
+	for (int i = 0; i < ans.size(); i++) {
+		cout << n - ans[i] + 1 << " ";
+	}
+	return 0;
+}
